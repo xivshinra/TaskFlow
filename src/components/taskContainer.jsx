@@ -8,11 +8,10 @@ import { Footer } from "./footer/footer";
 // COMPONENT
 export const TaskContainer = () => {
   const [tasksList, setTasksList] = useState([]);
-  console.log("tasksList: ", tasksList);
 
   const addTask = (title) => {
     const newTask = {
-      id: tasksList.length + 1,
+      id: tasksList.length ? tasksList[tasksList.length - 1].id + 1 : 1,
       title: title,
       completed: false,
     };
@@ -42,8 +41,6 @@ export const TaskContainer = () => {
 
   const { completedTasks, incompletedTasks } = getTaskCounts();
 
-  console.log(completedTasks, incompletedTasks);
-
   return (
     <main>
       <Header />
@@ -54,7 +51,7 @@ export const TaskContainer = () => {
         deleteTask={deleteTask}
         incompletedTasks={incompletedTasks}
       />
-      <Footer />
+      <Footer completedTasks={completedTasks} />
     </main>
   );
 };
