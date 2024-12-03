@@ -7,24 +7,8 @@ import { Footer } from "./footer/footer";
 
 // COMPONENT
 export const TaskContainer = () => {
-  const [tasksList, setTasksList] = useState([
-    // {
-    //   id: 1,
-    //   title: "Manger des pommes !",
-    //   completed: false,
-    // },
-    // {
-    //   id: 2,
-    //   title: "Apprendre react avec Remote Monkey.",
-    //   completed: false,
-    // },
-    // {
-    //   id: 3,
-    //   title: "Sortir le chien",
-    //   completed: false,
-    // },
-  ]);
-  console.log("tasksList :>> ", tasksList);
+  const [tasksList, setTasksList] = useState([]);
+  console.log("tasksList: ", tasksList);
 
   const addTask = (title) => {
     const newTask = {
@@ -35,11 +19,41 @@ export const TaskContainer = () => {
     setTasksList([...tasksList, newTask]);
   };
 
+  const editTask = (id, completedValue) => {
+    setTasksList(
+      tasksList.map((task) =>
+        task.id === id ? { ...task, completed: completedValue } : task
+      )
+    );
+  };
+
+  const deleteTask = (id) => {
+    setTasksList(tasksList.filter((task) => task.id !== id));
+  };
+
+  const getTaskCounts = () => {
+    const completedTasks = tasksList.filter((task) => task.completed).length;
+    const incompletedTasks = tasksList.length - completedTasks;
+    return {
+      completedTasks,
+      incompletedTasks,
+    };
+  };
+
+  const { completedTasks, incompletedTasks } = getTaskCounts();
+
+  console.log(completedTasks, incompletedTasks);
+
   return (
     <main>
       <Header />
       <TaskInput addTask={addTask} />
-      <TaskList />
+      <TaskList
+        tasksList={tasksList}
+        editTask={editTask}
+        deleteTask={deleteTask}
+        incompletedTasks={incompletedTasks}
+      />
       <Footer />
     </main>
   );

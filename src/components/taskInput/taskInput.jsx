@@ -12,9 +12,10 @@ export const TaskInput = ({ addTask }) => {
 
   const handleAddTask = (e) => {
     e.preventDefault();
-    addTask(taskTitle);
-    setTaskTitle("");
-    console.log("pouet");
+    if (taskTitle.trim()) {
+      addTask(taskTitle);
+      setTaskTitle("");
+    }
   };
 
   return (
@@ -29,6 +30,7 @@ export const TaskInput = ({ addTask }) => {
           className={styles.input}
           placeholder="Indiquez un titre de tâche explicite."
           onChange={handleInputChange}
+          value={taskTitle}
         />
         <button
           type="submit"
